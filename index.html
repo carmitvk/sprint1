@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/main.css">
+    <title>MineSweeper</title>
+</head>
+
+<body>
+    <h1>Mine Sweeper</h1>
+    <h2>
+        <div class="message">
+            Choose Game level
+        </div>
+        <div class="level-btn">
+            <button onclick="initialByLevel(4,2)">Beginner</button>
+            <button onclick="initialByLevel(8,4)">Regular</button>
+            <button onclick="initialByLevel(12,6)">Advanced</button>
+        </div>
+        <div>
+            <button class="restart-btn hide" onclick="restartClicked(this)">😀</button>
+            <div class="timer-container">
+                Timer:<p class="timer"></p>
+            </div>
+        </div>
+    </h2>
+    <table class="sweeper">
+        <tbody class="sweeper-board">
+        </tbody>
+    </table>
+    <!-- <button id="button" oncontextmenu="event.preventDefault();">Click here mouse...</button>
+<p id="log"></p> -->
+    <script src="js/utils.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

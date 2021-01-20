@@ -1,0 +1,64 @@
+body {
+    background: #111;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    font-size:25px
+}
+h2{
+    margin: 0;
+}
+
+h1{
+    margin: 15px;
+}
+  
+.sweeper {
+    padding-top: 60px;
+    width: 600px;
+    margin: auto;
+}
+table {
+    border-collapse:separate;
+    border-spacing: 10px;
+}
+.cell {
+    width: 30px;
+    height: 30px;
+    background-color:darkgray;
+    cursor: pointer;
+    border-radius: 3px;
+    /* border: 1px solid gray; */
+}
+button{
+    cursor: pointer;
+    border-radius: 7px;
+    background-color:rgb(147, 152, 221)
+}
+.expand{
+    background-color: gray;
+}
+.mine{
+    background-color: red;
+}
+.hide{
+    display:none;
+}
+.restart-btn{
+    width: 60px;
+    height: 40px;
+    cursor: pointer;
+    /* background-color: gray; */
+}
+.timer{
+    background-color: gray;
+    width: 50px;
+    height: 40px;
+    margin:0 auto;
+    line-height: 50px;
+    border-radius: 3px;
+}
+.timer-container{
+    font-size:20px;
+    margin-top: 10px;
+
+}
