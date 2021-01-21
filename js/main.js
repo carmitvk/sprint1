@@ -12,7 +12,7 @@ const ONE_LIFE = '⚓';
 const MAX_LIFE = 3;
 const ONE_SAFE = '🏝️';
 const MAX_SAFE = 3;
-const ONE_FULL_SAFE = '🔭';
+const ONE_FULL_SAFE = '💡';//'🔭';
 const MAX_FULL_SAFE = 3;  
 
 //🧷 🔍
@@ -465,6 +465,7 @@ function updateFullSafe() {
 
 function fullSafeClicked() {
     //TODO ::action
+
 
     updateFullSafe(); //reduce in model and DOM
 }

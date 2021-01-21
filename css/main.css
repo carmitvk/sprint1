@@ -4,6 +4,7 @@ body {
     text-align: center;
     font-size:25px;
     background-image: url("../img/sea.jpg");
+    background-size: cover;
 }
 
 h1{
@@ -46,7 +47,7 @@ button{
     background: rgb(95, 136, 182);
     cursor: pointer;
     border-radius: 5px;
-    border:0
+    border:0;
 }
 .expand{
     background-image: url("../img/sea.jpg");
