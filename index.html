@@ -8,25 +8,25 @@
     <title>MineSweeper</title>
 </head>
 
-<body>
+<body onload="initialByLevel(4, 2)">
+    <p class="safe-container" title="Press to mark cell with no mine" onmousedown="safeClicked()">🏝️🏝️🏝️</p>
     <h1>Mine Sweeper</h1>
-    <h2>
-        <div class="message">
-            Choose Game level
-        </div>
+    <p class="life-container" title="Remained Life">⚓⚓⚓</p>
+    <div class="game">
         <div class="level-btn">
-            <button onclick="initialByLevel(4,2)">Beginner</button>
-            <button onclick="initialByLevel(8,4)">Regular</button>
-            <button onclick="initialByLevel(12,6)">Advanced</button>
+            <p class="full-safe-container" title="Press to watch a full safe step" onmousedown="fullSafeClicked()">🔭🔭🔭</p>
+            <button class="restart-btn" title="Press to restart" onclick="restartClicked(this)">😀</button>
+            <button class="beginner" title="Beginner Level" onclick="initialByLevel(4,2)">⭐</button>
+            <button class="regular" title="Regular Level" onclick="initialByLevel(8,12)">⭐⭐</button>
+            <button class="advanced" title="Advanced Level" onclick="initialByLevel(12,30)">⭐⭐⭐</button>
         </div>
-        <div>
-            <button class="restart-btn hide" onclick="restartClicked(this)">😀</button>
-            <div class="timer-container">
-                Timer:<p class="timer"></p>
-            </div>
+        <div class="game-results-container">
+            <p class="timer containers" title="Timer">0</p>
+            <p class="marked-mines containers" title="Marked mines">0</p>
+            <p class="best-score containers" title="Best Time score">0</p>
         </div>
-    </h2>
-    <table class="sweeper">
+    </div>
+    <table class="sweeper" border="1">
         <tbody class="sweeper-board">
         </tbody>
     </table>
