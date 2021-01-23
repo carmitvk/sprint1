@@ -444,13 +444,14 @@ function isWinOccured() {
             if (gBoard[i][j].isMine && gBoard[i][j].isMarked) {
                 correctMarkedMines++;
             }//correct marked
-            if (gBoard[i][j].isShown) {
-                countShowed++;
-            }
+            // if (gBoard[i][j].isShown) {
+            //     countShowed++;
+            // }
         }
     }
     if (correctMarkedMines === gLevel.MINES &&
-        countShowed + correctMarkedMines === gLevel.SIZE * gLevel.SIZE &&
+        // countShowed + correctMarkedMines === gLevel.SIZE * gLevel.SIZE &&
+        gGame.shownCount+ correctMarkedMines === gLevel.SIZE * gLevel.SIZE &&
         gGame.markedCount === correctMarkedMines) {
         return true;
     }
