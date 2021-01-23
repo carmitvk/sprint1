@@ -15,11 +15,15 @@
     <div class="game">
         <div class="level-btn">
             <!-- <p class="full-safe-container" title="Press to watch a full safe step" onmousedown="fullSafeClicked()">🔭🔭🔭</p> -->
-            <p class="full-safe-container" title="Idea for a full safe step" onmousedown="fullSafeClicked()">💡💡💡</p>
-            <button class="restart-btn" title="Press to restart" onclick="restartClicked(this)">😀</button>
-            <button class="beginner" title="Beginner Level" onclick="initialByLevel(4,2)">⭐</button>
-            <button class="regular" title="Regular Level" onclick="initialByLevel(8,12)">⭐⭐</button>
-            <button class="advanced" title="Advanced Level" onclick="initialByLevel(12,30)">⭐⭐⭐</button>
+            <p class="full-safe-container" title="Press to get idea for a full safe step" onmousedown="fullSafeClicked()">💡💡💡</p>
+            <button class="btn restart-btn" title="Press to restart" onclick="restartClicked()">😀</button>
+            <!-- <button class="undo" title="Undo" onclick="undoClicked()">↩️</button> -->
+            <button class="btn" title="Beginner Level" onclick="initialByLevel(4,2)">⭐</button>
+            <button class="btn" title="Regular Level" onclick="initialByLevel(8,12)">⭐⭐</button>
+            <button class="btn" title="Advanced Level" onclick="initialByLevel(12,30)">⭐⭐⭐</button>
+            <button class="undo" title="Undo" onclick="undoClicked()">↩</button>
+            <!-- <p class="undo" title="Undo" onclick="undoClicked()">↩</p> -->
+            <p class="manual " title="Manually put mines" onclick="manuallyClicked()">🤏</p>
         </div>
         <div class="game-results-container">
             <p class="timer containers" title="Timer">0</p>
