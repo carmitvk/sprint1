@@ -17,7 +17,7 @@ const MAX_SAFE = 3;
 const ONE_FULL_SAFE = '💡';//'🔭';
 const MAX_FULL_SAFE = 3;
 const THINK = '💭';
-//🧷 🔍 🤏 ↩️ 💭
+//🧷 🔍 
 
 var gStartGameTime;
 var gBoard; //A Matrix containing cell objects:
@@ -36,6 +36,7 @@ gGame = {
     life: 3,
     safeClickCount: MAX_SAFE,
     fullSafeClickCount: MAX_FULL_SAFE,
+    manulLeftToPlaced: gLevel.MINES,
     isOn: true,
     shownCount: 0,
     markedCount: 0,
@@ -71,6 +72,8 @@ function initialByLevel(size, mines) {
     if (!gGame.isOn) return;
     gLevel.SIZE = size;
     gLevel.MINES = mines;
+    gGame.manulLeftToPlaced = gLevel.MINES;
+    renderCellByNm('.manual', MANUAL_MINES);
     updateLife();
     updateSafe();
     gGame.fullSafeClickCount = MAX_FULL_SAFE;
@@ -158,6 +161,10 @@ function cellClicked(elCell, i, j) {
         fullSafeHandle({ i: i, j: j }, elCell);
         return;
     }
+    if (gIsManualMines&&gIsFirstMove) {  
+        setMinesManual({ i: i, j: j });
+        return;
+    }
     if (gIsFirstMove) {
         startTimer();
         gIsFirstMove = false;
@@ -194,18 +201,18 @@ function updateLife() {
     }
     renderCellByNm('.life-container', strLife)
 }
+
 function safeClicked() {
     if (gIsFirstMove) return;   // no mines are on board before the first move. also every step is good - so no clue is needed.
     var infoCell = getMinePos();
     var isEndOfSafeCells = (gGame.shownCount === gLevel.SIZE * gLevel.SIZE - gLevel.MINES);
-    // var isEndOfSafeCells = (gGame.shownCount === gLevel.SIZE * gLevel.SIZE - gLevel.MINES);
     if (isEndOfSafeCells) {
         pos = { i: infoCell.i, j: infoCell.j };
         removeClsToElByPos(pos, 'expand');
         addClsToElByPos(pos, 'mine');
         setTimeout(() => {
             removeClsToElByPos(pos, 'mine');
-        }, 1000); 
+        }, 1000);
     } else {
         //light the safe random cell
         var randIdxI = getRandomInt(0, gBoard.length);
@@ -239,10 +246,7 @@ function updateSafe() {
 }
 
 function addMinesAndNeig(cellClickedPos) {
-    if (gIsManualMines) {
-        setMinesManual(gBoard, cellClickedPos);
-        gIsManualMines = false;
-    } else {
+    if (!gIsManualMines) {
         // put mines in rand places
         setMinesRandom(gBoard, cellClickedPos);
     }
@@ -334,9 +338,9 @@ function expandCell(location) {
         elCell.innerHTML = EMPTY;
         gGame.markedCount--;
     }
-    if (!savedIsShown){
-    gBoard[location.i][location.j].isShown = true;
-    gGame.shownCount++;
+    if (!savedIsShown) {
+        gBoard[location.i][location.j].isShown = true;
+        gGame.shownCount++;
     }
     gBoard[location.i][location.j].isMarked = false;
 }
@@ -432,7 +436,6 @@ window.oncontextmenu = function () {
 //Game ends when all mines are marked, and all the other cells are shown
 function isWinOccured() {
     var correctMarkedMines = 0;
-    var countShowed = 0;
     for (var i = 0; i < gBoard.length; i++) {
         for (var j = 0; j < gBoard.length; j++) {
             if (gBoard[i][j].isShown && gBoard[i][j].isMine) {
@@ -443,15 +446,11 @@ function isWinOccured() {
             }
             if (gBoard[i][j].isMine && gBoard[i][j].isMarked) {
                 correctMarkedMines++;
-            }//correct marked
-            // if (gBoard[i][j].isShown) {
-            //     countShowed++;
-            // }
+            }
         }
     }
     if (correctMarkedMines === gLevel.MINES &&
-        // countShowed + correctMarkedMines === gLevel.SIZE * gLevel.SIZE &&
-        gGame.shownCount+ correctMarkedMines === gLevel.SIZE * gLevel.SIZE &&
+        gGame.shownCount + correctMarkedMines === gLevel.SIZE * gLevel.SIZE &&
         gGame.markedCount === correctMarkedMines) {
         return true;
     }
@@ -507,7 +506,7 @@ function fullSafeClicked() {
     upFullSafeIcon(THINK);
 }
 
-function fullSafeHandle(pos, elCell) {
+function fullSafeHandle(pos, elCell) {  //carmit
     var cell = gBoard[pos.i][pos.j];
     if (cell.isMine) {
         mineOccuredInSafeMode(elCell);//expand curr boom red background-color 
@@ -532,7 +531,7 @@ function undoClicked() {
         if (undoMove) {
             if (!undoMove.isShown) undoMove.elCell.classList.remove('expand');
             gBoard[undoMove.i][undoMove.j].isShown = undoMove.isShown;
-            if (!undoMove.isShown) gGame.shownCount--; 
+            if (!undoMove.isShown) gGame.shownCount--;
             gBoard[undoMove.i][undoMove.j].isMarked = undoMove.isMarked;
             (undoMove.elCell).innerHTML = undoMove.innerHtml;
             undoMove = gUndoMoves.pop();
@@ -540,30 +539,22 @@ function undoClicked() {
     }
 }
 
-function manuallyClicked() {
+function manuallyClicked() { 
+    if (!gIsFirstMove) return; //for not at middle of game
     gIsManualMines = true;
-    restartClicked();
+    renderCellByNm('.manual', MINE)
 }
 
-function setMinesManual(board, cellClickedPos) {
-    for (var i = 0; i < gLevel.MINES; i++) {
-        var idxI = +prompt(`insert i position for mine number ${i + 1}`, i);
-        var idxJ = +prompt(`insert j position for mine number ${i + 1}`, i);
-
-        while (idxI > gLevel.SIZE - 1 || idxI < 0 || idxJ > gLevel.SIZE - 1 || idxJ < 0 ||
-            (cellClickedPos.i === idxI && cellClickedPos.j === idxJ) || board[idxI][idxJ].isMine) {
-
-            if (cellClickedPos.i === idxI && cellClickedPos.j === idxJ) {
-                console.log(`can\'t put mine in first clicked cell [${idxI}][${idxJ}]. Insert again:`);
-            } else if (idxI > gLevel.SIZE - 1 || idxI < 0 || idxJ > gLevel.SIZE - 1 || idxJ < 0) {
-                console.log(`cell [${idxI}][${idxJ}] is out of range. Insert again:`);
-            } else if (board[idxI][idxJ].isMine) {
-                console.log(`cell [${idxI}][${idxJ}] already contains mine. Insert again:`);
-            }
-            idxI = +prompt(`insert i position for mine number ${i + 1}`, i);
-            idxJ = +prompt(`insert j position for mine number ${i + 1}`, i);
-        }
-        board[idxI][idxJ].isMine = true;
+function setMinesManual(pos) {
+    if (gBoard[pos.i][pos.j].isMine) {
+        console.log(`cell [${pos.i}][${pos.i}] already contains mine. Insert again:`);
+        return;
+    }
+    gBoard[pos.i][pos.j].isMine = true;
+    gGame.manulLeftToPlaced--;
+    if (gGame.manulLeftToPlaced === 0) {
+        renderCellByNm('.manual', MANUAL_MINES);
+        gIsManualMines = false;
     }
 }
 

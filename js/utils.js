@@ -22,12 +22,10 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
 }
 
-
 function popsound() {
   var audio = new Audio('pop.wav');
   audio.play();
 }
-
 
 function renderCell(location, value) {
   var elCell = document.querySelector(`.cell${location.i}-${location.j}`);
@@ -42,10 +40,8 @@ function addClsToElByPos(pos, clsNm) {
 
 function removeClsToElByPos(pos, clsNm) {
   var elCell = document.querySelector(`.cell-${pos.i}-${pos.j}`);
-  console.log(elCell);
   elCell.classList.remove(clsNm);
 }
-
 
 function renderCellByNm(strCls,value) {
   var elCell = document.querySelector(strCls);
